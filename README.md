@@ -67,7 +67,7 @@ Note down the network id.
 
 ### II. Automatically Deploy Your Azure VM
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fhao-hao-hao6%2Fazure-gaming%2Fmaster%2FStandard.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fhao-hao-hao%2Fazure-gaming%2Fmaster%2FStandard.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
