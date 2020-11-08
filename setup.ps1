@@ -4,11 +4,11 @@ param (
     [string]$admin_password = "",
     [switch]$windows_update = $false,
     [switch]$manual_install = $false,
-    [switch]$virtual_audio = $false
+    [switch]$virtual_audio = $true
 )
 
 function Get-UtilsScript ($script_name) {
-    $url = "https://raw.githubusercontent.com/ecalder6/azure-gaming/master/$script_name"
+    $url = "https://raw.githubusercontent.com/hao-hao-hao/Azure-Cloud-Gaming/master/$script_name"
     Write-Host "Downloading utils script from $url"
     [Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
 
@@ -46,5 +46,8 @@ if($virtual_audio){
     Install-VirtualAudio
 }
 Install-Steam
+Install-Chrome
+Install-Parsec
+Install-Epic
 Add-AutoLogin $admin_username $admin_password
 Restart-Computer

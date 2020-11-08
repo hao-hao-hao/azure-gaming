@@ -9,6 +9,12 @@
             },
             "defaultValue": "CloudGaming"
         },
+        "dnsLabelPrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Unique DNS Name storage account and public IP."
+            }
+        },
         "adminUsername": {
             "type": "string",
             "metadata": {
@@ -79,21 +85,21 @@
             "metadata": {
                 "description": "The time zone for daily auto-shutdown."
             },
-            "defaultValue": "Pacific Standard Time"
+            "defaultValue": "GMT Standard Time"
         },
         "autoShutdownTime": {
             "type": "string",
             "metadata": {
                 "description": "The time for daily auto-shutdown."
             },
-            "defaultValue": "23:00"
+            "defaultValue": "23:59"
         },
         "scriptLocation": {
             "type": "string",
             "metadata": {
                 "description": "Location of the setup script."
             },
-            "defaultValue": "https://raw.githubusercontent.com/ecalder6/azure-gaming/master"
+            "defaultValue": "https://raw.githubusercontent.com/hao-hao-hao/Azure-Cloud-Gaming/master"
         },
         "windowsUpdate": {
             "type": "bool",
@@ -105,13 +111,6 @@
                 "description": "Whether to update Windows (takes around 30 minutes to complete)"
             },
             "defaultValue": false
-        },
-        "networkID": {
-            "type": "securestring",
-            "metadata": {
-                "description": "Your zero tier network ID."
-            },
-            "defaultValue": ""
         }
     },
     "variables": {
@@ -135,7 +134,10 @@
             "apiVersion": "2017-08-01",
             "location": "[resourceGroup().location]",
             "properties": {
-                "publicIPAllocationMethod": "[parameters('VmIpType')]"
+                "publicIPAllocationMethod": "[parameters('VmIpType')]",
+                "dnsSettings": {
+                    "domainNameLabel": "[parameters('dnsLabelPrefix')]"
+                }
             },
             "sku": {
                 "name": "Basic"

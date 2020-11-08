@@ -172,6 +172,31 @@ function Install-NSSM {
     choco install nssm --force
 }
 
+function Install-Chrome{
+    Write-Output "Installing Chrome"
+    $Path = $env:TEMP; $Installer = "chrome_installer.exe"; Invoke-WebRequest "http://dl.google.com/chrome/install/375.126/chrome_installer.exe" -OutFile $Path\$Installer; Start-Process -FilePath $Path\$Installer -Args "/silent /install" -Verb RunAs -Wait; Remove-Item $Path\$Installer
+}
+
+function Install-Parsec{
+    $parsec_exe = "parsec-windows.exe"
+    Write-Output "Downloading Parsec into path $PSScriptRoot\$parsec_exe"
+    $webClient.DownloadFile("https://builds.parsecgaming.com/package/parsec-windows.exe", "$PSScriptRoot\$parsec_exe")
+    Write-Output "Installing Parsec"
+    Start-Process -FilePath "$PSScriptRoot\$parsec_exe" -ArgumentList "/S" -Wait
+    Write-Output "Cleaning up Parsec installation file"
+    Remove-Item -Path $PSScriptRoot\$parsec_exe -Confirm:$false
+}
+
+function Install-Epic{
+    $epic_exe = "epic-windows.msi"
+    Write-Output "Downloading epic into path $PSScriptRoot\$epic_exe"
+    $webClient.DownloadFile("https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi", "$PSScriptRoot\$epic_exe")
+    Write-Output "Installing epic"
+    Start-Process -FilePath "$PSScriptRoot\$epic_exe" -ArgumentList "/S" -Wait
+    Write-Output "Cleaning up epic installation file"
+    Remove-Item -Path $PSScriptRoot\$epic_exe -Confirm:$false
+}
+
 function Install-Steam {
     $steam_exe = "steam.exe"
     Write-Output "Downloading steam into path $PSScriptRoot\$steam_exe"
