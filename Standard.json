@@ -125,7 +125,7 @@
         "dnsNameForPublicIP": "[concat('cgp', uniqueString(resourceGroup().id, deployment().name))]",
         "scriptFolder": ".",
         "scriptFileName": "setup.ps1",
-        "scriptParameters": "[concat('-network \"', parameters('networkID'), '\" -admin_username \"', parameters('adminUsername'), '\" -admin_password \"', parameters('adminPassword'), '\"')]"
+        "scriptParameters": "[concat('-admin_username \"', parameters('adminUsername'), '\" -admin_password \"', parameters('adminPassword'), '\"')]"
     },
     "resources": [
         {

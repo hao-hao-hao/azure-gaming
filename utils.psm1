@@ -134,12 +134,6 @@ function Install-VirtualAudio {
     Start-Process -FilePath $devcon -ArgumentList "install", "$PSScriptRoot\$driver_folder\$driver_inf", $hardward_id -Wait
 }
 
-function Install-Chocolatey {
-    Write-Output "Installing Chocolatey"
-    Invoke-Expression ($webClient.DownloadString('https://chocolatey.org/install.ps1'))
-    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
-    chocolatey feature enable -n allowGlobalConfirmation
-}
 
 function Disable-IPv6To4 {
     Set-Net6to4Configuration -State disabled
@@ -147,25 +141,6 @@ function Disable-IPv6To4 {
     Set-NetIsatapConfiguration -State disabled
 }
 
-function Install-VPN {
-    $cert = "zerotier_cert.cer"
-    $url = "https://github.com/ecalder6/azure-gaming/raw/master/$cert"
-
-    Write-Output "Downloading zero tier certificate from $url"
-    $webClient.DownloadFile($url, "$PSScriptRoot\$cert")
-
-    Write-Output "Importing zero tier certificate"
-    Import-Certificate -FilePath "$PSScriptRoot\$cert" -CertStoreLocation "cert:\LocalMachine\TrustedPublisher"
-
-    Write-Output "Installing ZeroTier"
-    choco install zerotier-one --force
-    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
-}
-
-function Join-Network ($network) {
-    Write-Output "Joining network $network"
-    zerotier-cli join $network
-}
 
 function Install-NSSM {
     Write-Output "Installing NSSM for launching services that run apps at startup"

@@ -1,5 +1,4 @@
 param (
-    [string]$network = "",
     [string]$admin_username = "",
     [string]$admin_password = "",
     [switch]$windows_update = $false,
@@ -32,12 +31,6 @@ if ($manual_install) {
 }
 Edit-VisualEffectsRegistry
 Add-DisconnectShortcut
-
-if ($network) {
-    Install-Chocolatey
-    Install-VPN
-    Join-Network $network
-}
 
 Disable-Devices
 Disable-TCC
