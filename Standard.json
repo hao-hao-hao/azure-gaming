@@ -99,7 +99,7 @@
             "metadata": {
                 "description": "Location of the setup script."
             },
-            "defaultValue": "https://raw.githubusercontent.com/hao-hao-hao/Azure-Cloud-Gaming/master"
+            "defaultValue": "https://raw.githubusercontent.com/hao-hao-hao/azure-gaming/master"
         },
         "windowsUpdate": {
             "type": "bool",

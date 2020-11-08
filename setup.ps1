@@ -7,7 +7,7 @@ param (
 )
 
 function Get-UtilsScript ($script_name) {
-    $url = "https://raw.githubusercontent.com/hao-hao-hao/Azure-Cloud-Gaming/master/$script_name"
+    $url = "https://raw.githubusercontent.com/hao-hao-hao/azure-gaming/master/$script_name"
     Write-Host "Downloading utils script from $url"
     [Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
 

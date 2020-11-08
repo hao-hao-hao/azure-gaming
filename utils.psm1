@@ -13,8 +13,7 @@ function Disable-InternetExplorerESC {
 
 function Install-Chocolatey {
     Write-Output "Installing Chocolatey"
-    Invoke-Expression ($webClient.DownloadString('https://chocolatey.org/install.ps1'))
-    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
+    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
     chocolatey feature enable -n allowGlobalConfirmation
 }
 
