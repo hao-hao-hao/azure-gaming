@@ -18,6 +18,7 @@ function Get-UtilsScript ($script_name) {
 $script_name = "utils.psm1"
 Get-UtilsScript $script_name
 Import-Module "C:\$script_name"
+Install-Chocolatey
 
 if ($windows_update) {
     Update-Windows
@@ -38,9 +39,10 @@ Enable-Audio
 if($virtual_audio){
     Install-VirtualAudio
 }
-Install-Steam
 Install-Chrome
+Install-Steam
 Install-Parsec
 Install-Epic
+Install-UPlay
 Add-AutoLogin $admin_username $admin_password
 Restart-Computer

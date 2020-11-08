@@ -11,6 +11,13 @@ function Disable-InternetExplorerESC {
     Write-Output "IE Enhanced Security Configuration (ESC) has been disabled." -ForegroundColor Green
 }
 
+function Install-Chocolatey {
+    Write-Output "Installing Chocolatey"
+    Invoke-Expression ($webClient.DownloadString('https://chocolatey.org/install.ps1'))
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
+    chocolatey feature enable -n allowGlobalConfirmation
+}
+
 function Update-Windows {
     $url = "https://gallery.technet.microsoft.com/scriptcenter/Execute-Windows-Update-fc6acb16/file/144365/1/PS_WinUpdate.zip"
     $compressed_file = "PS_WinUpdate.zip"
@@ -102,36 +109,14 @@ function Enable-Audio {
 function Install-VirtualAudio {
     $compressed_file = "VBCABLE_Driver_Pack43.zip"
     $driver_folder = "VBCABLE_Driver_Pack43"
-    $driver_inf = "vbMmeCable64_win7.inf"
-    $hardward_id = "VBAudioVACWDM"
 
     Write-Output "Downloading Virtual Audio Driver"
-    $webClient.DownloadFile("http://vbaudio.jcedeveloppement.com/Download_CABLE/VBCABLE_Driver_Pack43.zip", "$PSScriptRoot\$compressed_file")
+    $webClient.DownloadFile("https://download.vb-audio.com/Download_CABLE/VBCABLE_Driver_Pack43.zip", "$PSScriptRoot\$compressed_file")
     Unblock-File -Path "$PSScriptRoot\$compressed_file"
 
     Write-Output "Extracting Virtual Audio Driver"
     Expand-Archive "$PSScriptRoot\$compressed_file" -DestinationPath "$PSScriptRoot\$driver_folder" -Force
 
-    $wdk_installer = "wdksetup.exe"
-    $devcon = "C:\Program Files (x86)\Windows Kits\10\Tools\x64\devcon.exe"
-
-    Write-Output "Downloading Windows Development Kit installer"
-    $webClient.DownloadFile("http://go.microsoft.com/fwlink/p/?LinkId=526733", "$PSScriptRoot\$wdk_installer")
-
-    Write-Output "Downloading and installing Windows Development Kit"
-    Start-Process -FilePath "$PSScriptRoot\$wdk_installer" -ArgumentList "/S" -Wait
-
-    $cert = "vb_cert.cer"
-    $url = "https://github.com/ecalder6/azure-gaming/raw/master/$cert"
-
-    Write-Output "Downloading vb certificate from $url"
-    $webClient.DownloadFile($url, "$PSScriptRoot\$cert")
-
-    Write-Output "Importing vb certificate"
-    Import-Certificate -FilePath "$PSScriptRoot\$cert" -CertStoreLocation "cert:\LocalMachine\TrustedPublisher"
-
-    Write-Output "Installing virtual audio driver"
-    Start-Process -FilePath $devcon -ArgumentList "install", "$PSScriptRoot\$driver_folder\$driver_inf", $hardward_id -Wait
 }
 
 
@@ -153,34 +138,19 @@ function Install-Chrome{
 }
 
 function Install-Parsec{
-    $parsec_exe = "parsec-windows.exe"
-    Write-Output "Downloading Parsec into path $PSScriptRoot\$parsec_exe"
-    $webClient.DownloadFile("https://builds.parsecgaming.com/package/parsec-windows.exe", "$PSScriptRoot\$parsec_exe")
-    Write-Output "Installing Parsec"
-    Start-Process -FilePath "$PSScriptRoot\$parsec_exe" -ArgumentList "/S" -Wait
-    Write-Output "Cleaning up Parsec installation file"
-    Remove-Item -Path $PSScriptRoot\$parsec_exe -Confirm:$false
+    choco install parsec -y --force
 }
 
 function Install-Epic{
-    $epic_exe = "epic-windows.msi"
-    Write-Output "Downloading epic into path $PSScriptRoot\$epic_exe"
-    $webClient.DownloadFile("https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi", "$PSScriptRoot\$epic_exe")
-    Write-Output "Installing epic"
-    Start-Process -FilePath "$PSScriptRoot\$epic_exe" -ArgumentList "/S" -Wait
-    Write-Output "Cleaning up epic installation file"
-    Remove-Item -Path $PSScriptRoot\$epic_exe -Confirm:$false
+    choco install epicgameslauncher -y --force
 }
 
 function Install-Steam {
-    $steam_exe = "steam.exe"
-    Write-Output "Downloading steam into path $PSScriptRoot\$steam_exe"
-    $webClient.DownloadFile("https://steamcdn-a.akamaihd.net/client/installer/SteamSetup.exe", "$PSScriptRoot\$steam_exe")
-    Write-Output "Installing steam"
-    Start-Process -FilePath "$PSScriptRoot\$steam_exe" -ArgumentList "/S" -Wait
+    choco install steam -y --force
+}
 
-    Write-Output "Cleaning up steam installation file"
-    Remove-Item -Path $PSScriptRoot\$steam_exe -Confirm:$false
+function Install-UPlay{
+    choco install uplay -y --force
 }
 
 function Set-ScheduleWorkflow ($admin_username, $admin_password, $manual_install) {
